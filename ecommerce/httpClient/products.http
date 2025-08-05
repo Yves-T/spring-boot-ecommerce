@@ -1,0 +1,11 @@
+### GET product by url param
+GET http://localhost:8080/api/products/1
+
+### GET product by search id
+GET http://localhost:8080/api/products/search/findByCategoryId?id=2
+
+### GET search products by name
+GET http://localhost:8080/api/products/search/findByNameContaining?name=Data
+
+### Pagination
+GET http://localhost:8080/api/products?page=0&size=10

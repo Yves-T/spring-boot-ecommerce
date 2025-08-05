@@ -1,0 +1,8 @@
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-border-radius: 30;
+  -moz-border-radius: 30;
+  border-radius: 30;
+}

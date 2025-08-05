@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>test</h1>
+</div>
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Units in Stock</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @if (products$ | async; as products) { @for (tempProduct of products._embedded.products; track
+    tempProduct.sku) {
+    <tr>
+      <td class="align-middle">
+        <img src="{{ tempProduct.imageUrl }}" alt="{{ tempProduct.description }}" [height]="50" />
+      </td>
+      <td class="align-middle">{{ tempProduct.name }}</td>
+      <td class="align-middle">{{ tempProduct.unitPrice | currency: 'EUR' }}</td>
+      <td class="align-middle">{{ tempProduct.unitsInStock }}</td>
+    </tr>
+    } }
+  </tbody>
+</table>

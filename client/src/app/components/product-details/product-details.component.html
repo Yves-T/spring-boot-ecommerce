@@ -1,0 +1,18 @@
+@if (product$ | async; as product) {
+  <div class="detail-section">
+    <div class="container-fluid">
+      <img src="{{ product.imageUrl }}" alt="{{ product.description }}" class="detail-img" />
+
+      <h3>{{ product.name }}</h3>
+      <div class="price">{{ product.unitPrice | currency: 'EUR' }}</div>
+      <button class="btn btn-primary btn-sm" (click)="addToCart(product)">Add to cart</button>
+
+      <hr />
+
+      <h4>Description</h4>
+      <p>{{ product.description }}</p>
+
+      <a [routerLink]="['/routePath']" class="mt5">Back to Product List</a>
+    </div>
+  </div>
+}

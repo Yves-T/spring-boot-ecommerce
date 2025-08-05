@@ -1,0 +1,5 @@
+### GET countries
+GET  http://localhost:8080/api/states
+
+### Find states by country code
+GET  http://localhost:8080/api/states/search/findByCountryCode?code=BE

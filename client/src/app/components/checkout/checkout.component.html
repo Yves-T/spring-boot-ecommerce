@@ -1,0 +1,344 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+        <div class="form-area" formGroupName="customer">
+          <h3>Cutomer</h3>
+          <div class="row">
+            <div class="col-md-2">
+              <label>First Name</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="firstName" />
+                @if (firstName?.invalid && (firstName?.dirty || firstName?.touched)) {
+                  <div class="alert alert-danger mt-1">
+                    @if (
+                      firstName?.errors?.['required'] || firstName?.errors?.['notOnlyWhiteSpace']
+                    ) {
+                      <div>First name is required</div>
+                    }
+                    @if (firstName?.errors?.['minlength']) {
+                      <div>First name must be at least 2 characters long</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Last Name</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="lastName" />
+                @if (lastName?.invalid && (lastName?.dirty || lastName?.touched)) {
+                  <div class="alert alert-danger mt-1">
+                    @if (
+                      lastName?.errors?.['required'] || lastName?.errors?.['notOnlyWhiteSpace']
+                    ) {
+                      <div>Last name is required</div>
+                    }
+                    @if (lastName?.errors?.['minlength']) {
+                      <div>Last name must be at least 2 characters long</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Email</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="email" />
+                @if (email?.invalid && (email?.dirty || email?.touched)) {
+                  <div class="alert alert-danger mt-1">
+                    @if (email?.errors?.['required']) {
+                      <div>Email is required</div>
+                    }
+                    @if (email?.errors?.['pattern']) {
+                      <div>Email must have a valid format</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- billing address -->
+        <div class="form-area" formGroupName="billingAddress">
+          <h3>Address</h3>
+          <div class="row">
+            <div class="col-md-2">
+              <label>Country</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                @if (countries$ | async; as countries) {
+                  <select formControlName="country" (change)="getStates('billingAddress')">
+                    @for (country of countries; track country.id) {
+                      <option [ngValue]="country">
+                        {{ country.name }}
+                      </option>
+                    }
+                  </select>
+                  @if (
+                    addressCountry?.invalid && (addressCountry?.dirty || addressCountry?.touched)
+                  ) {
+                    <div class="alert alert-danger mt-1">
+                      @if (addressCountry?.errors?.['required']) {
+                        <div>Country is required</div>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Street</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="street" />
+                @if (addressStreet?.invalid && (addressStreet?.dirty || addressStreet?.touched)) {
+                  <div class="alert alert-danger mt-1">
+                    @if (addressStreet?.errors?.['required']) {
+                      <div>Street is required</div>
+                    }
+                    @if (addressStreet?.errors?.['minlength']) {
+                      <div>Street must be least 2 characters</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>City</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="city" />
+                @if (addressCity?.invalid && (addressCity?.dirty || addressCity?.touched)) {
+                  <div class="alert alert-danger mt-1">
+                    @if (addressCity?.errors?.['required']) {
+                      <div>City is required</div>
+                    }
+                    @if (addressCity?.errors?.['minlength']) {
+                      <div>City must be least 2 characters</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>State</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                @if (billingStates$ | async; as states) {
+                  <select formControlName="state">
+                    @for (state of states; track state.id) {
+                      <option [ngValue]="state">{{ state.name }}</option>
+                    }
+                  </select>
+                  @if (addressState?.invalid && (addressState?.dirty || addressState?.touched)) {
+                    <div class="alert alert-danger mt-1">
+                      @if (addressState?.errors?.['required']) {
+                        <div>State is required</div>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Zip Code</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="zipCode" />
+                @if (addressZip?.invalid && (addressZip?.dirty || addressZip?.touched)) {
+                  <div class="alert alert-danger mt-1">
+                    @if (addressZip?.errors?.['required']) {
+                      <div>Zip code is required</div>
+                    }
+                    @if (addressZip?.errors?.['minlength']) {
+                      <div>Zip code must be least 2 characters</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- credit card -->
+        <div formGroupName="creditCard" class="form-area">
+          <h3>Credit Card</h3>
+          <div class="row">
+            <div class="col-md-2">
+              <label>Card Type</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <select formControlName="cardType">
+                  <option>Visa</option>
+                  <option>Mastercard</option>
+                </select>
+                @if (
+                  creditCardType?.invalid && (creditCardType?.dirty || creditCardType?.touched)
+                ) {
+                  <div class="alert alert-danger mt-1">
+                    @if (creditCardType?.errors?.['required']) {
+                      <div>Credit card is required</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Name on card</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="nameOnCard" />
+                @if (
+                  creditCardNameOnCard?.invalid &&
+                  (creditCardNameOnCard?.dirty || creditCardNameOnCard?.touched)
+                ) {
+                  <div class="alert alert-danger mt-1">
+                    @if (
+                      creditCardNameOnCard?.errors?.['required'] ||
+                      creditCardNameOnCard?.errors?.['notOnlyWhiteSpace']
+                    ) {
+                      <div>Credit card is required</div>
+                    }
+                    @if (creditCardNameOnCard?.errors?.['minlength']) {
+                      <div>Name on card must be least 2 characters</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Card Number</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="cardNumber" />
+                @if (
+                  creditCardNumber?.invalid &&
+                  (creditCardNumber?.dirty || creditCardNumber?.touched)
+                ) {
+                  <div class="alert alert-danger mt-1">
+                    @if (creditCardNumber?.errors?.['required']) {
+                      <div>Credit card number is required</div>
+                    }
+                    @if (creditCardNumber?.errors?.['pattern']) {
+                      <div>Card number must be 16 digits long</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Security Code</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input type="text" formControlName="securityCode" />
+                @if (
+                  creditCardSecurityCode?.invalid &&
+                  (creditCardSecurityCode?.dirty || creditCardSecurityCode?.touched)
+                ) {
+                  <div class="alert alert-danger mt-1">
+                    @if (creditCardSecurityCode?.errors?.['required']) {
+                      <div>Security code is required</div>
+                    }
+                    @if (creditCardSecurityCode?.errors?.['pattern']) {
+                      <div>Security code must be 3 digits long</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Expiration Month</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                @if (creditCardMonths$ | async; as months) {
+                  <select formControlName="expirationMonth">
+                    @for (month of months; track month) {
+                      <option>{{ month }}</option>
+                    }
+                  </select>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <label>Expiration Year</label>
+            </div>
+            <div class="col-md-9">
+              <div class="input-space">
+                @if (creditCardYears$ | async; as years) {
+                  <select formControlName="expirationYear" (change)="handleMonthsAndYears()">
+                    @for (year of years; track year) {
+                      <option>{{ year }}</option>
+                    }
+                  </select>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- order details -->
+        <div class="form-area">
+          <h3>Review Your Order</h3>
+          <p>Total Quantity: {{ totalQuantity$ | async }}</p>
+          <p>Shipping: FREE</p>
+          <p>Total Price: {{ totalPrice$ | async | currency: 'EUR' }}</p>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-info">Purchase</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
